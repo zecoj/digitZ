@@ -1,6 +1,5 @@
 {
     "appKeys": {
-        "bluetooth": 1,
         "icon": 3,
         "temperatureC": 4,
         "weather": 2
@@ -38,7 +37,7 @@
     "shortName": "DigitZ",
     "uuid": "7d9cb522-1a54-4a08-95bb-4c5e836e4710",
     "versionCode": 1,
-    "versionLabel": "1.0",
+    "versionLabel": "1.2",
     "watchapp": {
         "watchface": true
     }

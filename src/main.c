@@ -60,10 +60,10 @@ void bluetooth_connection_handler(bool connected) {
     }
     //layer_set_hidden(text_layer_get_layer(x_blue_layer), bt_connect_toggle);
   }
-  else {
+  //else {
     //APP_LOG(APP_LOG_LEVEL_DEBUG, "I'm still here, just ignoring bluetooth events");
     //layer_set_hidden(text_layer_get_layer(x_blue_layer), true);
-  }
+  //}
   update_bluetooth_str();
 }
 
@@ -85,7 +85,6 @@ void show_extra (void *isShow) {
   
 }
 static void wrist_flick_handler(AccelAxisType axis, int32_t direction) {
-  axis=1;
   if (axis == 1 && !shake_timeout) {
     show_extra((void *)true);
     shake_timeout = app_timer_register (STATUS_LINE_TIMEOUT, show_extra, (AppTimerCallback)false);
@@ -131,7 +130,7 @@ static void update_time(char *load_status, bool update_main, bool update_x) {
 
     text_layer_set_text_alignment(m_layer, GTextAlignmentLeft);
 
-    if      (m>=59 && m<2 ) { m_x =  57; m_y =   3;}
+    if      (m>=59 || m<2 ) { m_x =  57; m_y =   3;}
     else if (m>=2  && m<4 ) { m_x =  82; m_y =   3;}
     else if (m>=4  && m<7 ) { m_x = 107; m_y =   3;}
     else if (m>=7  && m<9 ) { m_x = 107; m_y =  21;}
@@ -162,18 +161,15 @@ static void update_time(char *load_status, bool update_main, bool update_x) {
   }
   if (update_x) {
     //X_DATE 
-    if (weather && bt_connect_toggle) {
-      if (strcmp(weather_str, "no data") ) {
-        if(strcmp(load_status, "")){
-          snprintf(weat, sizeof(weat), "%s", load_status);
-        }
-        else {
-          snprintf(weat, sizeof(weat), "%s\n%s", temp_c_str, weather_str);
-        }
+    if (weather && bt_connect_toggle && strcmp(weather_str, "no data") ) {
+      if(strcmp(load_status, "")){
+        snprintf(weat, sizeof(weat), "%s", load_status);
+      }
+      else {
+        snprintf(weat, sizeof(weat), "%s\n%s", temp_c_str, weather_str);
       }
     }
     else {
-      strcpy(bluetooth_str, "");
       strcpy(weat, "");
     }
     charge_state = battery_state_service_peek();
