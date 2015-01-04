@@ -1,7 +1,13 @@
 {
-    "appKeys": {},
+    "appKeys": {
+        "bluetooth": 1,
+        "icon": 3,
+        "temperatureC": 4,
+        "weather": 2
+    },
     "capabilities": [
-        ""
+        "location",
+        "configurable"
     ],
     "companyName": "Ben Nguyen",
     "longName": "DigitZ",
