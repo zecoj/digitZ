@@ -1,0 +1,39 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "Ben Nguyen",
+    "longName": "DigitZ",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "fonts/PixelMechaBold.ttf",
+                "name": "NORMAL_16",
+                "type": "font"
+            },
+            {
+                "characterRegex": "[0-9]",
+                "file": "fonts/digitz_s.ttf",
+                "name": "SLIM_16",
+                "trackingAdjust": 1,
+                "type": "font"
+            },
+            {
+                "characterRegex": "[0-9]",
+                "file": "fonts/digitz_b.ttf",
+                "name": "BOLD_32",
+                "trackingAdjust": 4,
+                "type": "font"
+            }
+        ]
+    },
+    "shortName": "DigitZ",
+    "uuid": "7d9cb522-1a54-4a08-95bb-4c5e836e4710",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
