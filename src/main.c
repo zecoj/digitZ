@@ -45,7 +45,6 @@ void update_bluetooth_str () {
     else { snprintf(bluetooth_str, sizeof(bluetooth_str), "  §: ERR"); }
   }
   else { strcpy(bluetooth_str,""); }
-  
 }
 void bluetooth_connection_handler(bool connected) {
   //APP_LOG(APP_LOG_LEVEL_DEBUG, "bluetooth_connection_handler called");
@@ -89,6 +88,8 @@ static void wrist_flick_handler(AccelAxisType axis, int32_t direction) {
     show_extra((void *)true);
     shake_timeout = app_timer_register (STATUS_LINE_TIMEOUT, show_extra, (AppTimerCallback)false);
   }
+  //disabled due to potential hit on battery life
+  /*
   else if (axis == 1 && shake_timeout && weather && !weather_force_update && bt_connect_toggle) {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "SHAKE it like a Polaroid picture");
     app_message_outbox_send();
@@ -96,6 +97,7 @@ static void wrist_flick_handler(AccelAxisType axis, int32_t direction) {
     weather_force_update = true;
     app_timer_reschedule(shake_timeout, STATUS_LINE_TIMEOUT);
   }
+  */
 }
 
 static void update_time(char *load_status, bool update_main, bool update_x) {
@@ -180,8 +182,12 @@ static void update_time(char *load_status, bool update_main, bool update_x) {
   }
 }
 
-static void time_handler(struct tm *tick_time, TimeUnits units_changed){
+static void time_handler(struct tm *tick_time, TimeUnits units_changed) {
   update_time("", true, false);
+  if(weather && tick_time->tm_min % weather == 0) {
+    //APP_LOG(APP_LOG_LEVEL_DEBUG, "MINUTE_TICK I'm supposed to check the weather now");
+    app_message_outbox_send();
+  }
 }
 
 static void sync_error_callback(DictionaryResult dict_error, AppMessageResult app_message_error, void *context) {
@@ -317,6 +323,8 @@ void handle_init(void) {
   window_stack_push(s_main_window, true);
   tick_timer_service_subscribe(MINUTE_UNIT, time_handler);
   accel_tap_service_subscribe(wrist_flick_handler);
+  accel_service_set_sampling_rate(ACCEL_SAMPLING_10HZ);
+
   if (bluetooth) {
     bluetooth_connection_service_subscribe(bluetooth_connection_handler);
     bt_connect_toggle = bluetooth_connection_service_peek();
